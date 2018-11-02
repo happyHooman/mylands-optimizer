@@ -112,22 +112,42 @@ function updateNumbers(role, id, number) {
 
 
 rounds.initial.attackers[0][0].props.hp = 15;
-rounds.initial.attackers[0][3].props.hp = 40;
-rounds.initial.attackers[0][3].props.atk = 12;
-rounds.initial.attackers[0][4].props.hp = 15;
-rounds.initial.attackers[0][4].props.atk = 51;
+rounds.initial.attackers[0][1].props.atk = 8;
+rounds.initial.attackers[0][1].props.hp = 25;
+rounds.initial.attackers[0][2].props.atk = 9;
+rounds.initial.attackers[0][2].props.hp = 35;
+rounds.initial.attackers[0][5].props.atk = 1;
 rounds.initial.attackers[0][5].props.hp = 20;
-rounds.initial.attackers[0][5].props.atk = 2;
 
-rounds.initial.defenders[0][0].props.hp = 8;
-rounds.initial.defenders[0][2].props.hp = 25;
-rounds.initial.defenders[0][2].props.atk = 5;
-rounds.initial.defenders[0][3].props.hp = 20;
-rounds.initial.defenders[0][3].props.atk = 5;
+rounds.initial.defenders[0][0].props.hp = 15;
+rounds.initial.defenders[0][1].props.atk = 6;
+rounds.initial.defenders[0][1].props.hp = 15;
+rounds.initial.defenders[0][4].props.atk = 43;
+rounds.initial.defenders[0][4].props.hp = 10;
+rounds.initial.defenders[0][5].props.atk = 1;
+rounds.initial.defenders[0][5].props.hp = 15;
+rounds.initial.defenders[0][6].props.atk = 6;
+rounds.initial.defenders[0][6].props.hp = 1;
+rounds.initial.defenders[0][7].props.atk = 4;
+rounds.initial.defenders[0][7].props.hp = 10;
+
+rounds.initial.attackers[0][1].modifiers.atk = .03;
+rounds.initial.attackers[0][2].modifiers.atk = -.47;
+rounds.initial.attackers[0][5].modifiers.atk = .03;
+
+rounds.initial.defenders[0][4].modifiers.atk = .5;
 
 
-rounds.initial.attackers[0][3].modifiers.atk = .5;
-rounds.initial.defenders[0][3].modifiers.atk = .5;
+
+function fight() {
+	// would be better to read the indexes and use them instead of reloading
+	// clean
+	let init = clone(rounds.initial);
+	rounds = {};
+	rounds.initial = clone(init);
+
+	simulateBattle();
+}
 
 
 function simulateBattle() {
@@ -165,6 +185,8 @@ function simulateBattle() {
 		currentRound.defenders[0][i].num = previousRound.defenders[0][i].num > 0 ?
 				previousRound.defenders[0][i].num - (totals.attacker.atk * previousRound.defenders[0][i].num) /
 				(totals.defender.num * previousRound.defenders[0][i].props.hp) : 0;
+
+		//todo first check if the attack exceeds the healh of the units, the remaining of the attack is distributed to the rest ot units
 
 		//predator prey attack
 		if (i > 0 && i < 4) {
@@ -208,6 +230,31 @@ function simulateBattle() {
 		currentRound.attackers[0][i].modifiers = clone(previousRound.attackers[0][i].modifiers);
 		currentRound.defenders[0][i].props = clone(previousRound.defenders[0][i].props);
 		currentRound.defenders[0][i].modifiers = clone(previousRound.defenders[0][i].modifiers);
+	}
+
+	//check condition for next round
+	// count number of left units
+	let left = {atk: 0, def: 0};
+	for (let i = 0; i < 8; i++) {
+		left.atk += Math.ceil(currentRound.attackers[0][i].num);
+		left.def += Math.ceil(currentRound.defenders[0][i].num);
+	}
+
+	if (left.atk > 0 && left.def > 0) {
+		//update props and modifiers
+		simulateBattle();
+	} else {
+		if (left.atk === 0){
+		    console.log('attacker lost');
+		} else {
+			console.log('defender lost');
+		}
+
+		// revival round
+
+		// display battle results here
+
+
 	}
 }
 

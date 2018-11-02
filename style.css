@@ -1,20 +1,20 @@
 .container {
     margin-top: 20px;
     padding: 0;
-    width: 964px;
+    width: 968px;
     height: 400px;
-    border: 2px solid chocolate;
+    /*border: 2px solid chocolate;*/
 }
 
 .attacker {
     width: 960px;
-    height: 196px;
+    height: 198px;
     border: 2px solid chartreuse;
 }
 
 .defender {
     width: 960px;
-    height: 196px;
+    height: 198px;
     border: 2px solid darkblue;
 }
 
