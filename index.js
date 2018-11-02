@@ -41,42 +41,52 @@ let unitLevels = [
     ]
 ];
 
-let pr = {
+let props = {
     atk: 0,
     def: 0,
     hp: 0
 };
-let mod = {
+let modifiers = {
     atk: 0,
     def: 0,
     hp: 0
 };
+
 
 let unit = {
     num: 0,
     dead: 0,
-    props: Object.assign({}, pr),
-    modifiers: Object.assign({}, mod)
+    props: {
+        atk: 0,
+        def: 0,
+        hp: 0
+    },
+    modifiers: {
+        atk: 0,
+        def: 0,
+        hp: 0
+    }
 };
 
+
 let attacker = [
-    Object.assign({}, unit),
-    Object.assign({}, unit),
-    Object.assign({}, unit),
-    Object.assign({}, unit),
-    Object.assign({}, unit),
-    Object.assign({}, unit),
-    Object.assign({}, unit),
-    Object.assign({}, unit)
+    clone(unit),
+    clone(unit),
+    clone(unit),
+    clone(unit),
+    clone(unit),
+    clone(unit),
+    clone(unit),
+    clone(unit)
 ];
 
 let level = {
-    attackers: [Object.assign({}, attacker)],
-    defenders: [Object.assign({}, attacker)]
+    attackers: [clone(attacker)],
+    defenders: [clone(attacker)]
 };
 
 let rounds = {
-    initial: Object.assign({}, level)
+    initial: clone(level)
     // forts: level,
     // round_1: level,
     // round_2: level,
@@ -100,6 +110,30 @@ let rounds = {
     // round_20: level
 };
 
+let roundsList = [
+    'initial',
+    'round_1',
+    'round_2',
+    'round_3',
+    'round_4',
+    'round_5',
+    'round_6',
+    'round_7',
+    'round_8',
+    'round_9',
+    'round_10',
+    'round_11',
+    'round_12',
+    'round_13',
+    'round_14',
+    'round_15',
+    'round_16',
+    'round_17',
+    'round_18',
+    'round_19',
+    'round_20',
+];
+
 function updateNumbers(role, id, number) {
     switch (role) {
         case 'atk':
@@ -110,35 +144,27 @@ function updateNumbers(role, id, number) {
             defenderNumbers[id] = number;
             rounds.initial.defenders[0][id].num = number;
     }
-    console.log(rounds);
+    // console.log(rounds);
 }
 
 
-// rounds.initial.attackers[0][0].props.hp = 15;
-// rounds.initial.attackers[0][3].props.hp = 40;
-// rounds.initial.attackers[0][3].props.atk = 8;
-// rounds.initial.attackers[0][4].props.hp = 15;
-// rounds.initial.attackers[0][4].props.atk = 51;
-// rounds.initial.attackers[0][5].props.hp = 20;
-// rounds.initial.attackers[0][5].props.atk = 1;
-//
-// rounds.initial.defenders[0][0].props.hp = 8;
-// rounds.initial.defenders[0][2].props.hp = 25;
-// rounds.initial.defenders[0][2].props.atk = 5;
-// rounds.initial.defenders[0][3].props.hp = 20;
-// rounds.initial.defenders[0][3].props.atk = 5;
-//
-//
-// rounds.initial.attackers[0][3].modifiers.atk = .5;
-// rounds.initial.defenders[0][3].modifiers.atk = .5;
+rounds.initial.attackers[0][0].props.hp = 15;
+rounds.initial.attackers[0][3].props.hp = 40;
+rounds.initial.attackers[0][3].props.atk = 12;
+rounds.initial.attackers[0][4].props.hp = 15;
+rounds.initial.attackers[0][4].props.atk = 51;
+rounds.initial.attackers[0][5].props.hp = 20;
+rounds.initial.attackers[0][5].props.atk = 2;
+
+rounds.initial.defenders[0][0].props.hp = 8;
+rounds.initial.defenders[0][2].props.hp = 25;
+rounds.initial.defenders[0][2].props.atk = 5;
+rounds.initial.defenders[0][3].props.hp = 20;
+rounds.initial.defenders[0][3].props.atk = 5;
 
 
-
-
-
-
-
-
+rounds.initial.attackers[0][3].modifiers.atk = .5;
+rounds.initial.defenders[0][3].modifiers.atk = .5;
 
 
 let attackerNumbers = [742, 0, 0, 50, 50, 45, 0, 0];
@@ -212,6 +238,47 @@ function simulateBattle() {
     console.log('Total defender attack:', totalDefAt);
 
 
+
+
+
+    // new
+    let previousRound = rounds[roundsList[Object.keys(rounds).length - 1]];
+    // init current round
+    let crn = roundsList[Object.keys(rounds).length];
+    rounds[crn] = clone(level);
+    let currentRound = rounds[crn];
+
+    if (previousRound === 'initial'){
+        // doForts()
+    }
+
+    let totals = {attacker: {atk: 0, num: 0}, defender: {atk: 0, num: 0}};
+    for (let i = 0; i < 8; i++) {
+        totals.attacker.atk += previousRound.attackers[0][i].num *
+            previousRound.attackers[0][i].props.atk * (1 + previousRound.attackers[0][i].modifiers.atk);
+        totals.attacker.num += previousRound.attackers[0][i].num;
+        totals.defender.atk += previousRound.defenders[0][i].num *
+            previousRound.defenders[0][i].props.atk * (1 + previousRound.defenders[0][i].modifiers.atk);
+        totals.defender.num += previousRound.defenders[0][i].num;
+    }
+
+    console.log(totals);
+    // initialize currentRound
+    // rounds[currentRound] = clone(level);
+
+    for (let i = 0; i < 8; i++) {
+        //first attack
+        currentRound.attackers[0][i].num = previousRound.attackers[0][i].num > 0 ?
+            previousRound.attackers[0][i].num - (totals.defender.atk * previousRound.attackers[0][i].num) /
+            (totals.attacker.num * previousRound.attackers[0][i].props.hp) : 0;
+    }
+
+
+
+
+
+
+
     let atunits = 0,
         defunits = 0;
 
@@ -254,6 +321,7 @@ function simulateBattle() {
     console.log(units);
 }
 
+
 function memorySizeOf(obj) {
     var bytes = 0;
 
@@ -292,3 +360,7 @@ function memorySizeOf(obj) {
 
     return formatByteSize(sizeOf(obj));
 };
+
+function clone(obj) {
+    return JSON.parse(JSON.stringify(obj))
+}
