@@ -1,0 +1,30 @@
+.container {
+    margin-top: 20px;
+    padding: 0;
+    width: 964px;
+    height: 400px;
+    border: 2px solid chocolate;
+}
+
+.attacker {
+    width: 960px;
+    height: 196px;
+    border: 2px solid chartreuse;
+}
+
+.defender {
+    width: 960px;
+    height: 196px;
+    border: 2px solid darkblue;
+}
+
+.tabel {
+    height: 100%;
+}
+
+.iiinput{
+    margin: 0;
+    width: 90px;
+    padding: 0;
+}
+

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Lands Battle optimizer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <div class="attacker">
+        <table class="table table-bordered tabel">
+            <tr>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('atk', 0, parseInt(this.value))">
+                </td>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('atk', 1, parseInt(this.value))">
+                </td>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('atk', 2, parseInt(this.value))">
+                </td>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('atk', 3, parseInt(this.value))">
+                </td>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('atk', 4, parseInt(this.value))">
+                </td>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('atk', 5, parseInt(this.value))">
+                </td>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('atk', 6, parseInt(this.value))">
+                </td>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('atk', 7, parseInt(this.value))">
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="defender">
+        <table class="table table-bordered tabel">
+            <tr>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('def', 0, parseInt(this.value))">
+                </td>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('def', 1, parseInt(this.value))">
+                </td>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('def', 2, parseInt(this.value))">
+                </td>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('def', 3, parseInt(this.value))">
+                </td>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('def', 4, parseInt(this.value))">
+                </td>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('def', 5, parseInt(this.value))">
+                </td>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('def', 6, parseInt(this.value))">
+                </td>
+                <td>
+                    <input type="number" min="0" class="iiinput" onchange="updateNumbers('def', 7, parseInt(this.value))">
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<button class="btn btn-primary" onclick="simulateBattle()">Fight</button>
+
+<script src="index.js"></script>
+</body>
+</html>
