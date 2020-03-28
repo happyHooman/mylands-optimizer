@@ -88,7 +88,6 @@ w.Units.prototype.replaceUnits = function (first, second, step) {
         this.update_number(first, initial[0]);
         this.update_number(second, initial[1]);
     }
-    this.roundUnits(step);
     w.rashet();
     return this.qq[first] === before[0] && this.qq[second] === before[1];
 };
@@ -125,11 +124,12 @@ w.Units.prototype.optimize = function (step = 1000) {
         old_salary = new_salary;
         const reduced = this.reduce(step);
         const replaced = this.replace(step);
-        const rounded = this.roundUnits(step, false);
-        changed = reduced || replaced || rounded;
+        changed = reduced || replaced;
         new_salary = this.salary();
         console.log('salary', new_salary);
     } while (changed && new_salary + step < old_salary);
+    this.roundUnits(step);
+    this.roundUnits(step, false);
     this.reduce(step);
 
     console.log('final salary', this.salary());
