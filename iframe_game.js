@@ -21,16 +21,16 @@ w.Units.prototype.reduceUnit = function (i, step) {
 };
 
 w.Units.prototype.reduce = function (step) {
-    console.log('reduce');
+    console.log('REDUCE');
     let changed = false;
-    for (let i = 5; i > 0; i--) {
+    for (let i = 7; i > 0; i--) {
         changed = this.reduceUnit(i, step) || changed;
     }
     return changed;
 };
 
 w.Units.prototype.roundUnits = function (step, down = true) {
-    console.log('round');
+    console.log(`ROUND ${down ? 'DOWN' : 'UP'}`);
     let changed = false;
     for (let i = 1; i < 8; i++) {
         if (this.qq[i] % step !== 0) {
@@ -53,6 +53,7 @@ w.Units.prototype.roundUnits = function (step, down = true) {
             w.rashet();
         }
     }
+    console.log(this.qq.join(', '));
     return changed;
 };
 
@@ -69,10 +70,8 @@ w.Units.prototype.replaceUnits = function (first, second, step) {
         initial = [this.qq[first], this.qq[second]];
         let first_units_number = this.qq[first] - step;
         let second_units_number = this.qq[second] + Math.floor(step * salary[first] / salary[second]);
-        console.log(`${first_units_number} to ${first}\n${second_units_number} to ${second}`);
 
         if (second_units_number > this.maxUnits[second]) {
-            console.log('second units to max');
             second_units_number = this.maxUnits[second];
             first_units_number = this.qq[first] - Math.floor((this.maxUnits[second] - this.qq[second]) * salary[second] / salary[first]);
         }
@@ -84,7 +83,6 @@ w.Units.prototype.replaceUnits = function (first, second, step) {
     } while (this.xxx > leftRevivals && this.qq[first] > 0);
 
     if (this.xxx < leftRevivals) {
-        console.log('revert last');
         this.update_number(first, initial[0]);
         this.update_number(second, initial[1]);
     }
@@ -93,7 +91,7 @@ w.Units.prototype.replaceUnits = function (first, second, step) {
 };
 
 w.Units.prototype.replace = function (step) {
-    console.log('replace');
+    console.log('REPLACE');
     let changed = false;
     for (let i = 1; i < 8; i++) {
         for (let j = 1; j < 8; j++) {
@@ -113,7 +111,8 @@ w.Units.prototype.salary = function () {
     return c;
 };
 
-w.Units.prototype.optimize = function (step = 1000) {
+w.Units.prototype.optimize = function () {
+    const step = parseInt(w.document.querySelector(`#army_${this.number} .title_unit span select`).value)
     this.maxUnits = [...this.qq];
     let new_salary = this.salary();
     console.log('initial salary', new_salary);
@@ -123,7 +122,9 @@ w.Units.prototype.optimize = function (step = 1000) {
     do {
         old_salary = new_salary;
         const reduced = this.reduce(step);
+        console.log(this.qq.join(', '));
         const replaced = this.replace(step);
+        console.log(this.qq.join(', '));
         changed = reduced || replaced;
         new_salary = this.salary();
         console.log('salary', new_salary);
@@ -135,13 +136,44 @@ w.Units.prototype.optimize = function (step = 1000) {
     console.log('final salary', this.salary());
 };
 
-function op() {
-    w.unitu[0].optimize()
+
+w.Units.prototype.revert = function () {
+    for (let i = 0; i < 8; i++) {
+        this.update_number(i, this.maxUnits[i])
+    }
+};
+
+function addButtons(u) {
+    const p = w.document.querySelector(`#army_${u} .title_unit span`);
+
+    const obt = document.createElement('button');
+    obt.innerText = 'optimize';
+    obt.onclick = function () {
+        w.unitu[u].optimize()
+    };
+    p.prepend(obt);
+
+    const se = document.createElement('select');
+    for(let i=0;i<4;i++){
+        const o = document.createElement('option')
+        const v = Math.pow(10, i+1)
+        o.innerText = v;
+        o.value = v;
+        if(v === 1000){
+            o.selected = true
+        }
+        se.append(o)
+    }
+    p.prepend(se)
+
+    const rbt = document.createElement('button');
+    rbt.innerText = 'revert'
+    rbt.onclick = function () {
+        w.unitu[u].revert();
+    }
+    p.prepend(rbt);
 }
 
-const p = w.document.querySelector('#army_0 .title_unit span');
-const bt = document.createElement('button');
-bt.innerText = 'optimize';
-bt.onclick = op;
-p.prepend(bt);
-// const se = document.createElement()
+for (let i = 0; i < 7; i++) {
+    addButtons(i)
+}
