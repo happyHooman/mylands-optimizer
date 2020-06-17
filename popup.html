@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      input {
+        height: 15px;
+        /*width: 60px;*/
+        width: 100%;
+        outline: none;
+      }
+      button {
+        float: right;
+        margin-top: 5px;
+        margin-bottom: 10px;
+      }
+      body {
+        padding: 5px;
+      }
+      #extra_btn{
+        float: right;
+      }
+      #load {
+        float: left;
+      }
+      #top {
+        display: flex;
+      }
+      .rotate-up {
+        transform: rotate( -180deg );
+        transition: transform 150ms ease;
+      }
+      .rotate-down {
+        transform: rotate( -360deg );
+        transition: transform 150ms ease;
+      }
+    </style>
+  </head>
+  <body>
+  <div id="top">
+    <button id="load">Load</button>
+    <button id="extra_btn">&#8659;</button>
+  </div>
+  <div id="extra_div" style="display: none">
+    <button id="save">Save</button>
+  </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
