@@ -1,0 +1,35 @@
+body {
+    padding: 5px;
+}
+
+#armies {
+
+}
+
+.army {
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid gray;
+}
+
+.army-title{
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.options {
+    display: inline-flex;
+    padding-top: 5px;
+}
+
+.options button {
+    font-size: 10px;
+    margin-right: 5px;
+}
+
+#add-new {
+    font-weight: bold;
+    float: left;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
