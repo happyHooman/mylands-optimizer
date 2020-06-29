@@ -1,32 +1,61 @@
 'use strict';
 
-const loadBtn = document.getElementById('load');
-const saveBtn = document.getElementById('save');
-const extraBtn = document.getElementById('extra_btn');
+const armiesContainer = document.getElementById('armies');
 
-loadBtn.onclick = function (event) {
-    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-        chrome.tabs.executeScript(tabs[0].id, {file: 'load_army.js'})});
+chrome.storage.sync.get('armies', function (data) {
+    data.armies.forEach(army => {
+        const container = document.createElement('div');
+        container.className = 'army';
+        const armyTitle = document.createElement('div');
+        armyTitle.innerText = army.name;
+        armyTitle.className = 'army-title';
+        const optionsContainer = document.createElement('div');
+        optionsContainer.className = 'options';
+        const l = document.createElement('button');
+        l.innerText = 'l';
+        l.onclick = loadArmy.bind(null, army.battleId);
+        const u = document.createElement('button');
+        u.innerText = 'u';
+        u.onclick = saveArmy.bind(null, 40);
+        const x = document.createElement('button');
+        x.innerText = 'x';
+        x.onclick = removeArmy.bind(null, 50);
+
+        optionsContainer.appendChild(l);
+        optionsContainer.appendChild(u);
+        optionsContainer.appendChild(x);
+        container.appendChild(armyTitle);
+        container.appendChild(optionsContainer);
+        armiesContainer.appendChild(container);
+    });
+
+    const addArmy = document.createElement('button');
+    addArmy.innerText = 'Add New';
+    addArmy.id = 'add-new';
+    addArmy.onclick = addNewArmy.bind(null, data.armies);
+    armiesContainer.appendChild(addArmy);
+});
+
+const loadArmy = armyId => {
+    chrome.tabs.executeScript({code: `
+    (army => {
+        const doc = document.getElementsByTagName('iframe')[0].contentDocument;
+        doc.getElementById("save_id").value = army;
+        doc.getElementById('load').click()
+    })(${armyId});
+    `});
 };
 
-extraBtn.onclick = function (event) {
-    const extraDiv = document.getElementById('extra_div');
-    const hidden = extraDiv.style.display === 'none';
-    if (hidden) {
-        extraDiv.style.display = 'block';
-        event.target.className = 'rotate-up'
-    } else {
-        extraDiv.style.display = 'none';
-        event.target.className = 'rotate-down'
-    }
-}
+const saveArmy = armyId => {
+    chrome.tabs.executeScript({code: `console.log('save army');`});
+};
 
-saveBtn.onclick = function (event) {
-    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-        chrome.tabs.executeScript(
-            tabs[0].id,
-            {
-                file: 'save_army.js'
-            });
-    });
+const removeArmy = armyId => {
+    chrome.tabs.executeScript({code: `console.log('remove army');`});
+
+
+};
+
+const addNewArmy = armies => {
+    chrome.tabs.executeScript({code: `console.log('add new army');`});
 };
