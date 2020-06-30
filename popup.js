@@ -52,8 +52,6 @@ const saveArmy = armyId => {
 
 const removeArmy = armyId => {
     chrome.tabs.executeScript({code: `console.log('remove army');`});
-
-
 };
 
 const addNewArmy = armies => {
