@@ -4,6 +4,7 @@ chrome.runtime.onInstalled.addListener(function() {
       {name: "Snow White", battleId: 1712004},
       {name: "Agra", battleId: 1712005},
       {name: "Agra with G", battleId: 1710682}];
+    // const armies = []
   
   chrome.storage.sync.set({armies});
 
