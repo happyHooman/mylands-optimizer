@@ -27,9 +27,12 @@ body {
     margin-right: 5px;
 }
 
-#add-new {
+#addNew {
+    display: block;
     font-weight: bold;
-    float: left;
-    margin-bottom: 5px;
-    margin-top: 5px;
+    margin-top: 20px;
+}
+
+#newArmy {
+    display: block;
 }

@@ -173,4 +173,3 @@ function addButtons(u) {
 for (let i = 0; i < 7; i++) {
     addButtons(i)
 }
-
