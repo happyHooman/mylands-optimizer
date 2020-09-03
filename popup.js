@@ -4,6 +4,7 @@ const armiesContainer = document.getElementById('armies');
 let armies_list = {};
 let armyIndex, f;
 
+
 const createArmyElement = ({army, index}) => {
     const container = document.createElement('div');
     container.className = 'army';
@@ -18,18 +19,22 @@ const createArmyElement = ({army, index}) => {
     const l = document.createElement('button');
     l.innerText = 'l';
     l.id = 'load_' + index;
+    l.title = 'load';
     l.onclick = loadArmy.bind(null, army.battleId);
 
     const u = document.createElement('button');
     u.innerText = 'u';
+    u.title = 'update';
     u.onclick = updateArmy.bind(null, index);
 
     const r = document.createElement('button');
     r.innerText = 'r';
-    r.onclick = renameArmy.bind(null, army.battleId);
+    r.title = 'rename';
+    r.onclick = renameArmy.bind(null, index);
 
     const x = document.createElement('button');
     x.innerText = 'x';
+    x.title = 'remove';
     x.onclick = removeArmy.bind(null, index);
 
     optionsContainer.appendChild(l);
@@ -42,14 +47,16 @@ const createArmyElement = ({army, index}) => {
     return container;
 }
 
-chrome.storage.sync.get('armies', function (data) {
-    armies_list = data.armies;
-    data.armies.forEach((army, index) => {
+const refreshArmies = () => {
+    armiesContainer.innerHTML = '';
+    armies_list.forEach((army, index) => {
         armiesContainer.appendChild(createArmyElement({army, index}))
     });
+}
 
-    const addArmy = document.getElementById('addNew');
-    addArmy.onclick = addNewArmy.bind(null, data.armies);
+chrome.storage.sync.get('armies', function (data) {
+    armies_list = data.armies;
+    refreshArmies();
 });
 
 const loadArmy = armyId => {
@@ -76,15 +83,15 @@ const removeArmy = index => {
     armies_list.forEach((army, index) => {
         armiesContainer.appendChild(createArmyElement({army, index}))
     });
+    chrome.storage.sync.set({armies: armies_list});
 };
 
-const renameArmy = armyId => {
-    chrome.tabs.executeScript({code: `console.log('rename army', ${JSON.stringify(armyId)});`});
+const renameArmy = index => {
     const name = prompt('Please enter a name for the army');
     if (name !== null && name !== "") {
-
-    } else {
-        console.log('cancelled')
+        armies_list[index].name = name;
+        refreshArmies();
+        chrome.storage.sync.set({armies: armies_list});
     }
 }
 
@@ -96,6 +103,9 @@ const addNewArmy = () => {
 const saveArmyBtn = () => {
     chrome.tabs.executeScript({file: 'save_army.js'});
 }
+
+const addArmy = document.getElementById('addNew');
+addArmy.onclick = addNewArmy;
 
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
@@ -111,7 +121,7 @@ chrome.runtime.onMessage.addListener(
                             allArmies: armies_list
                         }));
                         armies_list.push(army);
-                        chrome.storage.sync.set({armies: armies_list})
+                        chrome.storage.sync.set({armies: armies_list});
                     }
                     break;
                 case 'update':
@@ -122,14 +132,3 @@ chrome.runtime.onMessage.addListener(
             }
         }
     });
-
-const waitForValue = (val, callback) => {
-    const step = 100;
-    if (val !== undefined && val !== null) {
-        callback()
-    } else {
-        setTimeout(() => {
-            waitForValue(val, callback)
-        }, step);
-    }
-}

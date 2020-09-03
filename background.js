@@ -1,9 +1,11 @@
 chrome.runtime.onInstalled.addListener(function() {
   const armies = [
-      {name: "Nevskiy", battleId: 1712003},
-      {name: "Snow White", battleId: 1712004},
-      {name: "Agra", battleId: 1712005},
-      {name: "Agra with G", battleId: 1710682}];
+      {name: "Nevskiy", battleId: 1714727},
+      {name: "Snow White", battleId: 1714573},
+      {name: "Agra", battleId: 1714728},
+      {name: "Agra with G", battleId: 1714729},
+      {name: "Def", battleId: 1714252},
+  ];
     // const armies = []
   
   chrome.storage.sync.set({armies});
