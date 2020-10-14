@@ -75,14 +75,13 @@ Units.prototype.replaceUnits = function (first, second, step) {
             second_units_number = this.maxUnits[second];
             first_units_number = this.qq[first] - Math.floor((this.maxUnits[second] - this.qq[second]) * this.unitTax[second] / this.unitTax[first]);
         }
-
         this.update_number(first, first_units_number);
         this.update_number(second, second_units_number);
         rashet();
 
     } while (this.win && this.xxx > leftRevivals && this.qq[first] > 0);
 
-    if (this.xxx < leftRevivals) {
+    if (!this.win || this.xxx < leftRevivals) {
         this.update_number(first, initial[0]);
         this.update_number(second, initial[1]);
     }

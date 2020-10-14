@@ -1,9 +1,9 @@
 chrome.runtime.onInstalled.addListener(function() {
   const armies = [
-      {name: "Nevskiy", battleId: 1714727},
-      {name: "Snow White", battleId: 1714573},
-      {name: "Agra", battleId: 1714728},
-      {name: "Agra with G", battleId: 1714729},
+      {name: "Nevskiy", battleId: 1718611},
+      {name: "Snow White", battleId: 1719008},
+      {name: "Agra", battleId: 1718616},
+      {name: "Agra with G", battleId: 1718614},
       {name: "Def", battleId: 1714252},
   ];
     // const armies = []
