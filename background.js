@@ -3,7 +3,6 @@ chrome.runtime.onInstalled.addListener(function() {
       {name: "Nevskiy", battleId: 1718611},
       {name: "Snow White", battleId: 1719008},
       {name: "Agra", battleId: 1718616},
-      {name: "Agra with G", battleId: 1718614},
       {name: "Def", battleId: 1714252},
   ];
     // const armies = []
