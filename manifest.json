@@ -1,28 +1,42 @@
 {
   "name": "My Lands Army Optimizer",
-  "version": "1.0",
+  "version": "0.2.0",
   "description": "Extension for Your Rules calculator",
-  "permissions": ["activeTab", "declarativeContent", "storage"],
-  "options_page": "options.html",
+  "manifest_version": 2,
+  "icons": {
+    "16": "icons/minion.png",
+    "32": "icons/minion.png",
+    "48": "icons/minion.png",
+    "128": "icons/minion.png"
+  },
+  "default_locale": "en",
   "background": {
-    "scripts": ["background.js"],
+    "scripts": [
+      "src/bg/background.js"
+    ],
     "persistent": false
   },
-  "content_scripts": [{
-    "matches": ["http://www.your-rules.com/*"],
-    "js": ["content.js"]
-  }],
-  "web_accessible_resources": [
-    "script.js"
-  ],
   "page_action": {
-    "default_popup": "popup.html"
+    "default_icon": "icons/minion.png",
+    "default_title": "page action demo",
+    "default_popup": "src/page_action/page_action.html"
   },
-  "icons": {
-    "16": "images/minion.png",
-    "32": "images/minion.png",
-    "48": "images/minion.png",
-    "128": "images/minion.png"
-  },
-  "manifest_version": 2
+  "content_scripts": [
+    {
+      "matches": [
+        "http://www.your-rules.com/*"
+      ],
+      "css": [
+        "src/inject/inject.css"
+      ]
+    },
+    {
+      "matches": [
+        "http://www.your-rules.com/*"
+      ],
+      "js": [
+        "src/inject/inject.js"
+      ]
+    }
+  ]
 }

@@ -1,0 +1,28 @@
+{
+  "name": "My Lands Army Optimizer",
+  "version": "1.0",
+  "description": "Extension for Your Rules calculator",
+  "permissions": ["activeTab", "declarativeContent", "storage"],
+  "options_page": "options.html",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [{
+    "matches": ["http://www.your-rules.com/*"],
+    "js": ["content.js"]
+  }],
+  "web_accessible_resources": [
+    "script.js"
+  ],
+  "page_action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "images/minion.png",
+    "32": "images/minion.png",
+    "48": "images/minion.png",
+    "128": "images/minion.png"
+  },
+  "manifest_version": 2
+}
